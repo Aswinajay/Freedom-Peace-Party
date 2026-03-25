@@ -1,4 +1,5 @@
-# 🌍 Freedom & Peace Party
+<!-- Keywords: Freedom and Peace Party, Decentralized Governance, Blockchain Voting App, ZK-Proofs Democracy, Polygon Smart Contracts, Open Source Political Party, Universal Basic Income, Digital Rights, Civic Tech, Future of Politics, Web3 Democracy -->
+# 🌍 Freedom & Peace Party | Decentralized Blockchain Democracy App
 
 <div align="center">
   <h3>"Born From Pain. Built From Hope. Verified By People. Applied In Real Politics. Owned By All Humanity. Forever."</h3>
@@ -14,7 +15,20 @@
   <p>
     <b>📜 <a href="🌍%20FREEDOM%20&%20PEACE%20PARTY.txt">Read the Original Manifesto Document (v9.0)</a> 📜</b>
   </p>
+  </p>
 </div>
+
+## 📑 Table of Contents
+- [📖 Overview](#-overview)
+- [⚡ 5 Absolute Core Values](#-5-absolute-core-values)
+- [🏛️ The 12 Revolutionary Pillars](#️-the-12-revolutionary-pillars)
+- [📅 Implementation Timeline](#-implementation-timeline)
+- [🏗️ Technical Architecture](#️-technical-architecture)
+- [🚀 Getting Started](#-getting-started)
+- [🛡️ Security & Privacy First](#️-security--privacy-first)
+- [🤝 Contributing](#-contributing)
+- [📄 License](#-license)
+- [📜 The Complete Grand Unified Manifesto](#-the-complete-grand-unified-manifesto)
 
 ## 📖 Overview
 
