@@ -42,11 +42,7 @@ const voteTypeLabel: Record<string, string> = {
   AMENDMENT_VOTE: 'Amendment',
 };
 
-interface DashboardProps {
-  onNavigate: (screen: string, params?: any) => void;
-}
-
-export const DashboardScreen: React.FC<DashboardProps> = ({ onNavigate }) => {
+export const DashboardScreen: React.FC<any> = ({ navigation }) => {
   const { member, setVotes, setLeaders, setNotifications, setPartyStats, votes, notifications } = useStore();
 
   useEffect(() => {
@@ -71,7 +67,7 @@ export const DashboardScreen: React.FC<DashboardProps> = ({ onNavigate }) => {
             <Text style={styles.name}>{member?.displayName ?? 'Member'}</Text>
             <Text style={styles.chapter}>{member?.chapter}</Text>
           </View>
-          <TouchableOpacity onPress={() => onNavigate('Notifications')} style={styles.notifBtn}>
+          <TouchableOpacity onPress={() => navigation.navigate('Notifications')} style={styles.notifBtn}>
             <Text style={styles.notifIcon}>🔔</Text>
             {unreadCount > 0 && (
               <View style={styles.notifBadge}>
@@ -108,13 +104,13 @@ export const DashboardScreen: React.FC<DashboardProps> = ({ onNavigate }) => {
         {/* Active votes needing attention */}
         <SectionHeader
           title={`🗳️ Votes Needing You (${activeVotes.length})`}
-          action={{ label: 'See All', onPress: () => onNavigate('Voting') }}
+          action={{ label: 'See All', onPress: () => navigation.navigate('Voting') }}
         />
         {activeVotes.slice(0, 3).map((vote) => {
           const color = voteTypeColor[vote.type];
           const pct = Math.round((vote.yesCount / (vote.yesCount + vote.noCount)) * 100);
           return (
-            <GlassCard key={vote.id} onPress={() => onNavigate('VoteDetail', { vote })}>
+            <GlassCard key={vote.id} onPress={() => navigation.navigate('VoteDetail', { vote })}>
               <View style={styles.voteCardTop}>
                 <Badge label={voteTypeLabel[vote.type]} color={color + '22'} textColor={color} />
                 <Text style={[styles.voteTimer, { color }]}>{timeLeft(vote.endTime)}</Text>
@@ -137,10 +133,10 @@ export const DashboardScreen: React.FC<DashboardProps> = ({ onNavigate }) => {
         {/* My Leaders */}
         <SectionHeader
           title="👥 My Leaders"
-          action={{ label: 'All Leaders', onPress: () => onNavigate('Leaders') }}
+          action={{ label: 'All Leaders', onPress: () => navigation.navigate('Leaders') }}
         />
         {mockLeaders.slice(0, 2).map((leader) => (
-          <GlassCard key={leader.id} onPress={() => onNavigate('LeaderProfile', { leader })}>
+          <GlassCard key={leader.id} onPress={() => navigation.navigate('LeaderProfile', { leader })}>
             <View style={styles.leaderRow}>
               <View style={styles.leaderAvatar}>
                 <Text style={styles.leaderAvatarText}>{leader.name[0]}</Text>
@@ -173,15 +169,14 @@ export const DashboardScreen: React.FC<DashboardProps> = ({ onNavigate }) => {
         {/* Quick Actions */}
         <SectionHeader title="⚡ Quick Actions" />
         <View style={styles.quickGrid}>
-          {[
+            { label: '💬 Forum', screen: 'Forum', color: Colors.teal },
             { label: '📋 Manifesto', screen: 'Manifesto', color: Colors.gold },
             { label: '🏛️ Recall', screen: 'Recall', color: Colors.red },
-            { label: '🏆 Elections', screen: 'Elections', color: Colors.purple },
-            { label: '🔍 Transparency', screen: 'Transparency', color: Colors.teal },
+            { label: '🏆 Elections', screen: 'ElectionScreen', color: Colors.purple },
           ].map((a) => (
             <TouchableOpacity
               key={a.screen}
-              onPress={() => onNavigate(a.screen)}
+              onPress={() => navigation.navigate(a.screen)}
               style={[styles.quickBtn, { borderColor: a.color + '44' }]}
             >
               <Text style={[styles.quickBtnText, { color: a.color }]}>{a.label}</Text>

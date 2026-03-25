@@ -20,7 +20,7 @@ const SLIDES = [
     emoji: '🌍',
     tag: 'Who We Are',
     title: 'Born From Pain.\nBuilt From Hope.',
-    body: 'A nonviolent revolution owned by all of humanity. No rulers. No corporations. No borders. Just people.',
+    body: 'Verified By People. Applied In Real Politics. Owned By All Humanity. Forever.',
     accent: Colors.gold,
   },
   {
@@ -50,12 +50,7 @@ const SLIDES = [
   },
 ];
 
-interface OnboardingProps {
-  onJoin: () => void;
-  onReadManifesto: () => void;
-}
-
-export const OnboardingScreen: React.FC<OnboardingProps> = ({ onJoin, onReadManifesto }) => {
+export const OnboardingScreen: React.FC<any> = ({ navigation }) => {
   const [current, setCurrent] = React.useState(0);
   const fadeAnim = useRef(new Animated.Value(1)).current;
   const slideAnim = useRef(new Animated.Value(0)).current;
@@ -129,8 +124,8 @@ export const OnboardingScreen: React.FC<OnboardingProps> = ({ onJoin, onReadMani
       {/* CTA Area */}
       {slide.isLast ? (
         <View style={styles.ctaArea}>
-          <Button label="🌍  Join Free — Verify Your Humanity" onPress={onJoin} variant="gold" size="lg" style={styles.ctaBtn} />
-          <Button label="Read Full Manifesto First" onPress={onReadManifesto} variant="ghost" size="md" style={{ marginTop: 12 }} />
+          <Button label="🌍  Join Free — Verify Your Humanity" onPress={() => navigation.navigate('Register')} variant="gold" size="lg" style={styles.ctaBtn} />
+          <Button label="Read Full Manifesto First" onPress={() => navigation.navigate('MainTabs', { screen: 'Manifesto' })} variant="ghost" size="md" style={{ marginTop: 12 }} />
         </View>
       ) : (
         <View style={styles.ctaArea}>

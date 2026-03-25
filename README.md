@@ -15,7 +15,10 @@
   <p>
     <b>📜 <a href="🌍%20FREEDOM%20&%20PEACE%20PARTY.txt">Read the Original Manifesto Document (v9.0)</a> 📜</b>
   </p>
-  </p>
+</div>
+
+<div align="center">
+  <img src="assets/screenshots/app_preview.webp" alt="Freedom & Peace Party App Walkthrough" width="800" />
 </div>
 
 ## 📑 Table of Contents
@@ -25,6 +28,7 @@
 - [📅 Implementation Timeline](#-implementation-timeline)
 - [🏗️ Technical Architecture](#️-technical-architecture)
 - [🚀 Getting Started](#-getting-started)
+- [📖 Project Documentation](#-project-documentation)
 - [🛡️ Security & Privacy First](#️-security--privacy-first)
 - [🤝 Contributing](#-contributing)
 - [📄 License](#-license)
@@ -118,6 +122,14 @@ To run the mobile app locally, follow these steps:
 The Freedom & Peace Party app is built on a "Privacy-First" / "No Plaintext" policy.
 - Personal Identifiable Information (PII) like emails and phone numbers are cryptographically hashed prior to storage.
 - Voting actions are completely decoupled from user profiles to guarantee anonymity while ensuring 1-Person-1-Vote integrity.
+
+## 📖 Project Documentation
+
+- [🛣️ Roadmap](ROADMAP.md) — Our trajectory from MVP to widespread adoption
+- [🛡️ Security Policy](SECURITY.md) — How to securely report vulnerabilities
+- [📝 Changelog](CHANGELOG.md) — Version history and release notes
+- [🤝 Contributing Guidelines](CONTRIBUTING.md) — How to join the movement
+- [🧑‍⚖️ Code of Conduct](CODE_OF_CONDUCT.md) — Community standards
 
 ## 🤝 Contributing
 

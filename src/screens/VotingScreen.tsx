@@ -49,11 +49,7 @@ const timeLeft = (iso: string): string => {
   return `${hours}h`;
 };
 
-interface VotingProps {
-  onVoteDetail: (vote: Vote) => void;
-}
-
-export const VotingScreen: React.FC<VotingProps> = ({ onVoteDetail }) => {
+export const VotingScreen: React.FC<any> = ({ navigation }) => {
   const [filter, setFilter] = useState<'all' | 'unvoted' | 'voted'>('all');
 
   const filtered = mockVotes.filter((v) => {
@@ -88,7 +84,7 @@ export const VotingScreen: React.FC<VotingProps> = ({ onVoteDetail }) => {
           const color = voteTypeColor[vote.type];
           const pct = Math.round((vote.yesCount / (vote.yesCount + vote.noCount)) * 100);
           return (
-            <GlassCard key={vote.id} onPress={() => onVoteDetail(vote)}>
+            <GlassCard key={vote.id} onPress={() => navigation.navigate('VoteDetail', { vote })}>
               <View style={styles.cardTop}>
                 <Badge label={voteTypeLabel[vote.type]} color={color + '22'} textColor={color} />
                 <View style={styles.rightMeta}>
@@ -119,7 +115,7 @@ export const VotingScreen: React.FC<VotingProps> = ({ onVoteDetail }) => {
               ) : (
                 <Button
                   label="Cast Your Vote →"
-                  onPress={() => onVoteDetail(vote)}
+                  onPress={() => navigation.navigate('VoteDetail', { vote })}
                   variant="teal"
                   size="sm"
                   style={{ marginTop: Spacing.sm, alignSelf: 'flex-end' }}
@@ -134,12 +130,8 @@ export const VotingScreen: React.FC<VotingProps> = ({ onVoteDetail }) => {
 };
 
 // ─── Vote Detail / Casting Screen ────────────────────────────────────────────
-interface VoteDetailProps {
-  vote: Vote;
-  onBack: () => void;
-}
-
-export const VoteDetailScreen: React.FC<VoteDetailProps> = ({ vote, onBack }) => {
+export const VoteDetailScreen: React.FC<any> = ({ route, navigation }) => {
+  const vote = route?.params?.vote;
   const [choice, setChoice] = useState<'yes' | 'no' | 'abstain' | null>(null);
   const [submitted, setSubmitted] = useState(vote.hasVoted);
   const [receipt, setReceipt] = useState<string | null>(null);
@@ -157,7 +149,7 @@ export const VoteDetailScreen: React.FC<VoteDetailProps> = ({ vote, onBack }) =>
     <View style={styles.container}>
       <StatusBar barStyle="light-content" backgroundColor={Colors.background} />
       <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={styles.scroll}>
-        <TouchableOpacity onPress={onBack} style={{ marginBottom: Spacing.base }}>
+        <TouchableOpacity onPress={() => navigation.goBack()} style={{ marginBottom: Spacing.base }}>
           <Text style={{ color: Colors.textSecondary }}>← Back to Votes</Text>
         </TouchableOpacity>
 

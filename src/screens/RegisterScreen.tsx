@@ -49,12 +49,7 @@ const VERIFICATION_METHODS = [
   },
 ];
 
-interface RegisterProps {
-  onRegistered: () => void;
-  onBack: () => void;
-}
-
-export const RegisterScreen: React.FC<RegisterProps> = ({ onRegistered, onBack }) => {
+export const RegisterScreen: React.FC<any> = ({ navigation }) => {
   const [step, setStep] = useState<1 | 2 | 3>(1);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -70,7 +65,7 @@ export const RegisterScreen: React.FC<RegisterProps> = ({ onRegistered, onBack }
     setMember({ ...mockMember, displayName: name || 'New Member' });
     setToken('mock_jwt_token_2026');
     setLoading(false);
-    onRegistered();
+    navigation.navigate('MainTabs');
   };
 
   return (
@@ -79,7 +74,7 @@ export const RegisterScreen: React.FC<RegisterProps> = ({ onRegistered, onBack }
       <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={styles.scroll}>
 
         {/* Header */}
-        <TouchableOpacity onPress={onBack} style={styles.backBtn}>
+        <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backBtn}>
           <Text style={styles.backText}>← Back</Text>
         </TouchableOpacity>
 

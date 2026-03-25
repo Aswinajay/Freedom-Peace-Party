@@ -18,18 +18,14 @@ const approvalColor = (r: number) =>
 const trendIcon = (t: string) =>
   t === 'rising' ? '↑' : t === 'falling' ? '↓' : '→';
 
-interface LeadersProps {
-  onLeaderPress: (leader: Leader) => void;
-}
-
-export const LeadersScreen: React.FC<LeadersProps> = ({ onLeaderPress }) => (
+export const LeadersScreen: React.FC<any> = ({ navigation }) => (
   <View style={styles.container}>
     <StatusBar barStyle="light-content" backgroundColor={Colors.background} />
     <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={styles.scroll}>
       <Text style={styles.heading}>👥 Leaders</Text>
       <Text style={styles.sub}>Every decision, every promise — publicly tracked. Forever.</Text>
       {mockLeaders.map((leader) => (
-        <GlassCard key={leader.id} onPress={() => onLeaderPress(leader)}>
+        <GlassCard key={leader.id} onPress={() => navigation.navigate('LeaderProfile', { leader })}>
           <View style={styles.row}>
             <View style={[styles.avatar, { backgroundColor: Colors.purple + '33' }]}>
               <Text style={styles.avatarText}>{leader.name[0]}</Text>
@@ -68,13 +64,8 @@ export const LeadersScreen: React.FC<LeadersProps> = ({ onLeaderPress }) => (
 );
 
 // ─── Leader Profile ───────────────────────────────────────────────────────────
-interface LeaderProfileProps {
-  leader: Leader;
-  onBack: () => void;
-  onStartRecall: (leader: Leader) => void;
-}
-
-export const LeaderProfileScreen: React.FC<LeaderProfileProps> = ({ leader, onBack, onStartRecall }) => {
+export const LeaderProfileScreen: React.FC<any> = ({ route, navigation }) => {
+  const leader = route?.params?.leader;
   const termDaysLeft = Math.max(
     0,
     Math.floor((new Date(leader.termEnd).getTime() - Date.now()) / (1000 * 60 * 60 * 24))

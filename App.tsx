@@ -1,5 +1,8 @@
-import React, { useState } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, SafeAreaView, StatusBar } from 'react-native';
+import React from 'react';
+import { StatusBar } from 'react-native';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { OnboardingScreen } from './src/screens/OnboardingScreen';
 import { RegisterScreen } from './src/screens/RegisterScreen';
 import { DashboardScreen } from './src/screens/DashboardScreen';
@@ -8,178 +11,106 @@ import { LeadersScreen, LeaderProfileScreen } from './src/screens/LeadersScreen'
 import { RecallScreen } from './src/screens/RecallScreen';
 import { TransparencyScreen } from './src/screens/TransparencyScreen';
 import { ManifestoScreen } from './src/screens/ManifestoScreen';
+import { ElectionScreen } from './src/screens/ElectionScreen';
+import { ForumScreen } from './src/screens/ForumScreen';
 import { useStore } from './src/store/useStore';
-import { Colors, Typography, Spacing } from './src/theme';
-import { Vote, Leader } from './src/store/useStore';
+import { Colors, Typography } from './src/theme';
 
-type Screen =
-  | 'Onboarding'
-  | 'Register'
-  | 'Dashboard'
-  | 'Voting'
-  | 'VoteDetail'
-  | 'Leaders'
-  | 'LeaderProfile'
-  | 'Recall'
-  | 'Transparency'
-  | 'Manifesto';
+export type RootStackParamList = {
+  Onboarding: undefined;
+  Register: undefined;
+  MainTabs: undefined;
+  VoteDetail: { vote: any };
+  LeaderProfile: { leader: any };
+  Recall: { leader?: any };
+  ElectionScreen: undefined;
+  Forum: undefined;
+};
 
-interface NavState {
-  screen: Screen;
-  params?: any;
-}
+export type MainTabParamList = {
+  Dashboard: undefined;
+  Voting: undefined;
+  Leaders: undefined;
+  Manifesto: undefined;
+  Transparency: undefined;
+};
 
-const TABS: { id: Screen; icon: string; label: string }[] = [
-  { id: 'Dashboard', icon: '🏠', label: 'Home' },
-  { id: 'Voting', icon: '🗳️', label: 'Vote' },
-  { id: 'Leaders', icon: '👥', label: 'Leaders' },
-  { id: 'Manifesto', icon: '📜', label: 'Manifesto' },
-  { id: 'Transparency', icon: '🔍', label: 'Transparency' },
-];
+const Stack = createNativeStackNavigator<RootStackParamList>();
+const Tab = createBottomTabNavigator<MainTabParamList>();
 
-export default function App() {
-  const { member } = useStore();
-  const [navStack, setNavStack] = useState<NavState[]>([
-    { screen: member ? 'Dashboard' : 'Onboarding' },
-  ]);
-
-  const current = navStack[navStack.length - 1];
-
-  const navigate = (screen: string, params?: any) => {
-    setNavStack((prev) => [...prev, { screen: screen as Screen, params }]);
-  };
-
-  const goBack = () => {
-    setNavStack((prev) => (prev.length > 1 ? prev.slice(0, -1) : prev));
-  };
-
-  const switchTab = (tab: Screen) => {
-    setNavStack([{ screen: tab }]);
-  };
-
-  const isMainTab = TABS.some((t) => t.id === current.screen);
-  const showTabBar = !!member && isMainTab;
-
-  const renderScreen = () => {
-    switch (current.screen) {
-      case 'Onboarding':
-        return (
-          <OnboardingScreen
-            onJoin={() => navigate('Register')}
-            onReadManifesto={() => navigate('Manifesto')}
-          />
-        );
-      case 'Register':
-        return (
-          <RegisterScreen
-            onRegistered={() => setNavStack([{ screen: 'Dashboard' }])}
-            onBack={goBack}
-          />
-        );
-      case 'Dashboard':
-        return <DashboardScreen onNavigate={navigate} />;
-      case 'Voting':
-        return <VotingScreen onVoteDetail={(vote) => navigate('VoteDetail', { vote })} />;
-      case 'VoteDetail':
-        return <VoteDetailScreen vote={current.params?.vote as Vote} onBack={goBack} />;
-      case 'Leaders':
-        return (
-          <LeadersScreen
-            onLeaderPress={(leader) => navigate('LeaderProfile', { leader })}
-          />
-        );
-      case 'LeaderProfile':
-        return (
-          <LeaderProfileScreen
-            leader={current.params?.leader as Leader}
-            onBack={goBack}
-            onStartRecall={(leader) => navigate('Recall', { leader })}
-          />
-        );
-      case 'Recall':
-        return (
-          <RecallScreen
-            preSelectedLeader={current.params?.leader}
-            onBack={goBack}
-          />
-        );
-      case 'Transparency':
-        return <TransparencyScreen />;
-      case 'Manifesto':
-        return <ManifestoScreen />;
-      default:
-        return <DashboardScreen onNavigate={navigate} />;
-    }
-  };
-
+function MainTabNavigator() {
   return (
-    <SafeAreaView style={styles.safe}>
-      <StatusBar barStyle="light-content" backgroundColor={Colors.background} />
-      <View style={styles.app}>
-        {renderScreen()}
-
-        {/* Bottom Tab Bar */}
-        {showTabBar && (
-          <View style={styles.tabBar}>
-            {TABS.map((tab) => {
-              const active = current.screen === tab.id;
-              return (
-                <TouchableOpacity
-                  key={tab.id}
-                  onPress={() => switchTab(tab.id)}
-                  style={styles.tabItem}
-                  activeOpacity={0.7}
-                >
-                  <Text style={styles.tabIcon}>{tab.icon}</Text>
-                  <Text
-                    style={[
-                      styles.tabLabel,
-                      { color: active ? Colors.gold : Colors.textMuted },
-                    ]}
-                  >
-                    {tab.label}
-                  </Text>
-                  {active && <View style={styles.tabIndicator} />}
-                </TouchableOpacity>
-              );
-            })}
-          </View>
-        )}
-      </View>
-    </SafeAreaView>
+    <Tab.Navigator
+      screenOptions={{
+        headerShown: false,
+        tabBarStyle: {
+          backgroundColor: Colors.surface,
+          borderTopColor: Colors.border,
+          paddingBottom: 8,
+          paddingTop: 8,
+          height: 60,
+        },
+        tabBarActiveTintColor: Colors.gold,
+        tabBarInactiveTintColor: Colors.textMuted,
+        tabBarLabelStyle: {
+          fontSize: Typography.size.xs,
+          fontWeight: '600',
+        },
+      }}
+    >
+      <Tab.Screen 
+        name="Dashboard" 
+        component={DashboardScreen} 
+        options={{ tabBarIcon: () => <span style={{fontSize: 20}}>🏠</span>, tabBarLabel: 'Home' }} 
+      />
+      <Tab.Screen 
+        name="Voting" 
+        component={VotingScreen} 
+        options={{ tabBarIcon: () => <span style={{fontSize: 20}}>🗳️</span>, tabBarLabel: 'Vote' }} 
+      />
+      <Tab.Screen 
+        name="Leaders" 
+        component={LeadersScreen} 
+        options={{ tabBarIcon: () => <span style={{fontSize: 20}}>👥</span>, tabBarLabel: 'Leaders' }} 
+      />
+      <Tab.Screen 
+        name="Manifesto" 
+        component={ManifestoScreen} 
+        options={{ tabBarIcon: () => <span style={{fontSize: 20}}>📜</span>, tabBarLabel: 'Manifesto' }} 
+      />
+      <Tab.Screen 
+        name="Transparency" 
+        component={TransparencyScreen} 
+        options={{ tabBarIcon: () => <span style={{fontSize: 20}}>🔍</span>, tabBarLabel: 'Transparency' }} 
+      />
+    </Tab.Navigator>
   );
 }
 
-const styles = StyleSheet.create({
-  safe: { flex: 1, backgroundColor: Colors.background },
-  app: { flex: 1, backgroundColor: Colors.background },
-  tabBar: {
-    flexDirection: 'row',
-    backgroundColor: Colors.surface,
-    borderTopWidth: 1,
-    borderTopColor: Colors.border,
-    paddingBottom: 8,
-    paddingTop: 8,
-  },
-  tabItem: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    position: 'relative',
-    paddingVertical: 4,
-  },
-  tabIcon: { fontSize: 20 },
-  tabLabel: {
-    fontSize: Typography.size.xs,
-    marginTop: 2,
-    fontWeight: Typography.weight.medium,
-  },
-  tabIndicator: {
-    position: 'absolute',
-    top: 0,
-    width: 20,
-    height: 2,
-    backgroundColor: Colors.gold,
-    borderRadius: 1,
-  },
-});
+export default function App() {
+  const { member } = useStore();
+
+  return (
+    <NavigationContainer>
+      <StatusBar barStyle="light-content" backgroundColor={Colors.background} />
+      <Stack.Navigator
+        initialRouteName={member ? "MainTabs" : "Onboarding"}
+        screenOptions={{
+          headerShown: false,
+          contentStyle: { backgroundColor: Colors.background }
+        }}
+      >
+        <Stack.Screen name="Onboarding" component={OnboardingScreen} />
+        <Stack.Screen name="Register" component={RegisterScreen} />
+        <Stack.Screen name="MainTabs" component={MainTabNavigator} />
+        
+        {/* Modals & Detail Screens */}
+        <Stack.Screen name="VoteDetail" component={VoteDetailScreen} />
+        <Stack.Screen name="LeaderProfile" component={LeaderProfileScreen} />
+        <Stack.Screen name="Recall" component={RecallScreen} />
+        <Stack.Screen name="ElectionScreen" component={ElectionScreen} />
+        <Stack.Screen name="Forum" component={ForumScreen} />
+      </Stack.Navigator>
+    </NavigationContainer>
+  );
+}

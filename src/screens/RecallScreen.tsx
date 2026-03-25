@@ -24,12 +24,8 @@ const RECALL_REASONS = [
   'Other',
 ];
 
-interface RecallProps {
-  preSelectedLeader?: Leader;
-  onBack: () => void;
-}
-
-export const RecallScreen: React.FC<RecallProps> = ({ preSelectedLeader, onBack }) => {
+export const RecallScreen: React.FC<any> = ({ route, navigation }) => {
+  const preSelectedLeader = route?.params?.leader;
   const [stage, setStage] = useState<'list' | 'file' | 'submitted'>('list');
   const [selectedLeader, setSelectedLeader] = useState<Leader | null>(preSelectedLeader ?? null);
   const [reason, setReason] = useState('');
@@ -51,7 +47,7 @@ export const RecallScreen: React.FC<RecallProps> = ({ preSelectedLeader, onBack 
     <View style={styles.container}>
       <StatusBar barStyle="light-content" backgroundColor={Colors.background} />
       <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={styles.scroll}>
-        <TouchableOpacity onPress={onBack} style={{ marginBottom: Spacing.base }}>
+        <TouchableOpacity onPress={() => navigation.goBack()} style={{ marginBottom: Spacing.base }}>
           <Text style={{ color: Colors.textSecondary }}>← Back</Text>
         </TouchableOpacity>
 
@@ -170,7 +166,7 @@ export const RecallScreen: React.FC<RecallProps> = ({ preSelectedLeader, onBack 
               </Text>
             </GlassCard>
             <Text style={styles.recallId}>Recall ID: {recallId}</Text>
-            <Button label="Done" onPress={onBack} variant="gold" size="md" style={{ marginTop: Spacing.xl }} />
+            <Button label="Done" onPress={() => navigation.goBack()} variant="gold" size="md" style={{ marginTop: Spacing.xl }} />
           </View>
         )}
       </ScrollView>
