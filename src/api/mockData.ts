@@ -1,0 +1,155 @@
+import { Member, Vote, Leader, Notification } from '../store/useStore';
+
+export const mockMember: Member = {
+  id: 'FPP-IN-2026-00001',
+  displayName: 'Aswin A.',
+  country: 'India',
+  chapter: 'Kerala Chapter',
+  trustLevel: 3,
+  verificationMethod: 'basic',
+  stealthMode: false,
+  joinedAt: '2026-03-01T00:00:00Z',
+  blockchainId: '0xAbCd...1234',
+};
+
+export const mockVotes: Vote[] = [
+  {
+    id: 'VOTE-001',
+    type: 'MONTHLY_REFERENDUM',
+    title: 'Universal Basic Income Pilot — Kerala 2026',
+    description:
+      'Approve the launch of a UBI pilot program covering 10,000 families in Kerala, funded by the chapter treasury.',
+    scope: 'local',
+    status: 'active',
+    endTime: new Date(Date.now() + 2 * 24 * 60 * 60 * 1000).toISOString(),
+    yesCount: 8412,
+    noCount: 1231,
+    totalVoters: 12000,
+    hasVoted: false,
+    chapter: 'Kerala Chapter',
+  },
+  {
+    id: 'VOTE-002',
+    type: 'POLICY_VOTE',
+    title: 'Free Internet as Legal Right — National Bill',
+    description:
+      'Mandate free, uncensored internet access as a legally enforceable right in India by 2027.',
+    scope: 'national',
+    status: 'active',
+    endTime: new Date(Date.now() + 5 * 24 * 60 * 60 * 1000).toISOString(),
+    yesCount: 241000,
+    noCount: 18000,
+    totalVoters: 300000,
+    hasVoted: true,
+    chapter: 'India Chapter',
+  },
+  {
+    id: 'VOTE-003',
+    type: 'RECALL_REFERENDUM',
+    title: 'Recall: District Leader — Failure to Report',
+    description:
+      'Recall petition validated. Leader missed 4 monthly reports and 3 member questions unanswered for 30+ days.',
+    scope: 'local',
+    status: 'active',
+    endTime: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000).toISOString(),
+    yesCount: 3200,
+    noCount: 890,
+    totalVoters: 5000,
+    hasVoted: false,
+    chapter: 'Thrissur District',
+  },
+  {
+    id: 'VOTE-004',
+    type: 'AMENDMENT_VOTE',
+    title: 'Manifesto Amendment — Lower Wealth Cap to $5B',
+    description:
+      'Amend Pillar 7 to reduce the wealth cap from $10B to $5B, with additional redistribution to UBI fund.',
+    scope: 'global',
+    status: 'active',
+    endTime: new Date(Date.now() + 25 * 24 * 60 * 60 * 1000).toISOString(),
+    yesCount: 1200000,
+    noCount: 340000,
+    totalVoters: 2000000,
+    hasVoted: false,
+    chapter: 'Global',
+  },
+];
+
+export const mockLeaders: Leader[] = [
+  {
+    id: 'L-001',
+    name: 'Priya Nair',
+    position: 'Kerala Chapter Head',
+    chapter: 'Kerala Chapter',
+    approvalRating: 87,
+    approvalTrend: 'rising',
+    promisesKept: 12,
+    promisesBroken: 1,
+    promisesPending: 3,
+    termEnd: '2028-01-01T00:00:00Z',
+    activeRecalls: 0,
+    photo: undefined,
+  },
+  {
+    id: 'L-002',
+    name: 'Rahul Menon',
+    position: 'India Country Leader',
+    chapter: 'India Chapter',
+    approvalRating: 62,
+    approvalTrend: 'falling',
+    promisesKept: 8,
+    promisesBroken: 4,
+    promisesPending: 7,
+    termEnd: '2027-06-01T00:00:00Z',
+    activeRecalls: 1,
+    photo: undefined,
+  },
+  {
+    id: 'L-003',
+    name: 'Anjali Thomas',
+    position: 'Thrissur District Coordinator',
+    chapter: 'Thrissur District',
+    approvalRating: 38,
+    approvalTrend: 'falling',
+    promisesKept: 3,
+    promisesBroken: 6,
+    promisesPending: 2,
+    termEnd: '2027-01-01T00:00:00Z',
+    activeRecalls: 1,
+    photo: undefined,
+  },
+];
+
+export const mockNotifications: Notification[] = [
+  {
+    id: 'N-001',
+    type: 'vote_closing_24h',
+    message: '🗳️ "UBI Pilot Kerala" vote closes in 24 hours — cast your vote!',
+    priority: 'HIGH',
+    read: false,
+    createdAt: new Date(Date.now() - 30 * 60 * 1000).toISOString(),
+  },
+  {
+    id: 'N-002',
+    type: 'recall_threshold_reached',
+    message: '🔴 Recall petition for Thrissur District leader has passed threshold — referendum opens!',
+    priority: 'URGENT',
+    read: false,
+    createdAt: new Date(Date.now() - 2 * 60 * 60 * 1000).toISOString(),
+  },
+  {
+    id: 'N-003',
+    type: 'monthly_referendum',
+    message: '📋 Monthly referendum open — 3 decisions need your vote before April 1st',
+    priority: 'MEDIUM',
+    read: true,
+    createdAt: new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString(),
+  },
+];
+
+export const mockPartyStats = {
+  totalMembers: 1240000,
+  countries: 48,
+  votesToday: 84211,
+  activeRecalls: 7,
+};
